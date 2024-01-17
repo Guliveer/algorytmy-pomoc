@@ -1,6 +1,8 @@
 ---
 layout: default
 ---
+<i>Alternatywa: <a href="https://www.hackerearth.com/practice/algorithms/sorting/" target="_blank"
+		rel="noopener noreferrer">hackerearth.com</a></i>
 <h1>Kalkulator</h1>
 Algorytm sortowania: <select id="algorithm">
 	<optgroup label="- Proste -">
@@ -30,6 +32,19 @@ wynik: <textarea id="result" readonly disabled rows="1" cols="30"></textarea><sp
 <sup>*</sup> 0/null - bez limitu<br>
 
 <script>
+	// Pobranie danych z formularza
+	var item_algorithm = document.getElementById("algorithm");
+	var item_inputArray = document.getElementById("arrayData");
+	var item_order = document.getElementById("order");
+	var item_maxIterations = document.getElementById("max_iterations");
+	var item_maxSwaps = document.getElementById("max_swaps");
+
+	item_algorithm.addEventListener("input", sort);
+	item_inputArray.addEventListener("input", sort);
+	item_order.addEventListener("input", sort);
+	item_maxIterations.addEventListener("input", sort);
+	item_maxSwaps.addEventListener("input", sort);
+
 	function sort() {
 		// Pobranie danych z formularza
 		var algorithm = document.getElementById("algorithm").value;
@@ -220,7 +235,7 @@ wynik: <textarea id="result" readonly disabled rows="1" cols="30"></textarea><sp
 	}
 
 	// Algorytm sortowania szybkiego z ograniczeniem ilości minięć wskaźników
-	function quicksort(array, order, maxIterations, maxSwaps) {
+	function quicksort(array, maxIterations, maxSwaps) {
 		const length = array.length;
 
 		function innerQuicksort(first, last) {
@@ -228,45 +243,36 @@ wynik: <textarea id="result" readonly disabled rows="1" cols="30"></textarea><sp
 			let i = first;
 			let j = last;
 
-			while (i <= j) {
-				if (order === "asc") {
-					while (array[i] < main) {
-						i++;
-					}
-					while (array[j] > main) {
-						j--;
-					}
-				} else if (order === "desc") {
-					while (array[i] > main) {
-						i++;
-					}
-					while (array[j] < main) {
-						j--;
-					}
-				} else {
-					console.log("Nieprawidłowa wartość 'order'. Używam domyślnej kolejności rosnącej ('asc').");
-					return;
-				}
-
-				if (i <= j) {
-					// Zamiana miejscami elementów na pozycjach i i j
-					let help = array[i];
-					array[i] = array[j];
-					array[j] = help;
-					i++;
-					j--;
-					swaps++;
-
-					if (swaps >= maxSwaps) {
-						console.log("Osiągnięto maksymalną liczbę zamian miejscami.");
+			while (i < j) {
+				if (i > j) {
+					iterations++;
+					if (iterations >= maxIterations) {
 						return;
 					}
 				}
 
-				iterations++;
-				if (iterations >= maxIterations * length) {
-					console.log("Osiągnięto maksymalną liczbę minięć wskaźników (pivotów).");
-					return;
+				while (array[i] < main) {
+					i++;
+				}
+				while (array[j] > main) {
+					j--;
+				}
+
+
+				if (i <= j) {
+					if (swaps >= maxSwaps) {
+						return;
+					}
+
+					// Zamiana miejscami elementów na pozycjach i i j
+					var help = array[i];
+					array[i] = array[j];
+					array[j] = help;
+
+					swaps++;
+					i++;
+					j--;
+
 				}
 			}
 
