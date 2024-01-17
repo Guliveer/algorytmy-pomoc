@@ -1,28 +1,18 @@
 ---
 layout: default
 ---
-<style>
-	input[type="number"] {
-		width: 60px;
-	}
-</style>
-
 <h1>Kalkulator</h1>
 Algorytm sortowania: <select id="algorithm">
-	<optgroup label="= Sortowanie wewnętrzne= ">
-		<option disabled>- Proste -</option>
+	<optgroup label="- Proste -">
 		<option value="bubble" selected>bąbelkowe</option>
 		<option value="insertion">przez wstawianie</option>
 		<option value="insertion-partial">przez wstawianie połówkowe</option>
 		<option value="selection">przez wybieranie</option>
-
-		<option disabled>- Złożone -</option>
-		<option value="quicksort">szybkie</option>
-		<option value="stack">stogowe</option>
 	</optgroup>
 
-	<optgroup label="= Sortowanie zewnętrzne =">
-		<option value="">placeholder</option>
+	<optgroup label="- Złożone -">
+		<option value="quicksort">szybkie</option>
+		<option value="stack">stogowe</option>
 	</optgroup>
 </select><br>
 
@@ -239,7 +229,6 @@ wynik: <textarea id="result" readonly disabled rows="1" cols="30"></textarea><sp
 			let j = last;
 
 			while (i <= j) {
-
 				if (order === "asc") {
 					while (array[i] < main) {
 						i++;
@@ -260,10 +249,6 @@ wynik: <textarea id="result" readonly disabled rows="1" cols="30"></textarea><sp
 				}
 
 				if (i <= j) {
-					if (swaps >= maxSwaps) {
-						return;
-					}
-
 					// Zamiana miejscami elementów na pozycjach i i j
 					let help = array[i];
 					array[i] = array[j];
@@ -273,11 +258,14 @@ wynik: <textarea id="result" readonly disabled rows="1" cols="30"></textarea><sp
 					swaps++;
 
 					if (swaps >= maxSwaps) {
+						console.log("Osiągnięto maksymalną liczbę zamian miejscami.");
 						return;
 					}
 				}
+
 				iterations++;
-				if (iterations >= maxIterations) {
+				if (iterations >= maxIterations * length) {
+					console.log("Osiągnięto maksymalną liczbę minięć wskaźników (pivotów).");
 					return;
 				}
 			}
